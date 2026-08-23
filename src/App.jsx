@@ -1,10 +1,7 @@
+import CinematicBackground from './components/CinematicBackground'
+
 function App() {
-  return (
-    <main className="app-shell">
-      <h1>I Think It Was Love</h1>
-      <p>Project shell ready for the cinematic experience.</p>
-    </main>
-  )
+  return <CinematicBackground />
 }
 
 export default App
