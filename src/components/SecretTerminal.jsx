@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import '../styles/secretTerminal.css'
+import { supabase } from '../utils/supabase'
 
 const sequence = [
   'SYSTEM // UNKNOWN',
@@ -61,9 +62,35 @@ function SecretTerminal() {
 
   const showInput = reducedMotion || lineIndex >= sequence.length
 
-  const handleSubmit = (event) => {
-    event.preventDefault()
+  const handleSubmit = async (event) => {
+  event.preventDefault()
+
+  const enteredCode = inputValue.trim()
+
+  if (!enteredCode) return
+
+  const isSuccess = enteredCode === '05/11' || enteredCode === '05 / 11'
+
+  const { error } = await supabase.from('access_logs').insert({
+    event_type: 'access_attempt',
+    success: isSuccess,
+    user_agent: navigator.userAgent,
+    country: null,
+    city: null,
+  })
+
+  if (error) {
+    console.error('Failed to save access attempt:', error)
+    return
   }
+
+  if (isSuccess) {
+    console.log('Access granted.')
+    // We'll build the actual secret reveal next.
+  } else {
+    console.log('Access denied.')
+  }
+}
 
   return (
     <div className="secret-terminal-shell" aria-live="polite">
