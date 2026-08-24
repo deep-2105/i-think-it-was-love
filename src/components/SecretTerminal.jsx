@@ -109,6 +109,12 @@ function SecretTerminal({ onAccessGranted }) {
       return
     }
 
+    if (!supabase) {
+      setStatus({ type: 'error', messages: ['connection error.', 'check Vercel env config.'] })
+      setInputValue('')
+      return
+    }
+
     setIsChecking(true)
     setStatus(null)
 
