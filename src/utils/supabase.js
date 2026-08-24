@@ -1,47 +1,11 @@
 import { createClient } from '@supabase/supabase-js'
 
-const getSupabaseConfig = () => ({
-  url: import.meta.env.VITE_SUPABASE_URL?.trim(),
-  key: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY?.trim(),
-})
+// These are intentionally client-side values: Supabase publishable/anon keys
+// are designed to be used by browser applications. The actual secret check
+// remains protected by the database function/RLS configuration.
+const SUPABASE_URL = 'https://actvukimaohnadmeyyql.supabase.co'
+const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_B21UvAehH7QpLg-qWeDMtw_9-Z0ReEt'
 
-export const isSupabaseConfigured = (() => {
-  const { url, key } = getSupabaseConfig()
-  return Boolean(url && key)
-})()
+export const isSupabaseConfigured = Boolean(SUPABASE_URL && SUPABASE_PUBLISHABLE_KEY)
 
-let client = null
-let clientAttempted = false
-
-const getClient = () => {
-  if (client) return client
-  if (clientAttempted) return null
-
-  clientAttempted = true
-  const { url, key } = getSupabaseConfig()
-
-  if (!url || !key) return null
-
-  try {
-    client = createClient(url, key)
-    return client
-  } catch {
-    client = null
-    return null
-  }
-}
-
-// Keep the existing SecretTerminal contract, but create the client lazily at
-// the moment it is actually used in the browser. This avoids a module-level
-// null snapshot and makes production runtime initialization deterministic.
-export const supabase = {
-  rpc: (...args) => {
-    const activeClient = getClient()
-
-    if (!activeClient) {
-      return Promise.reject(new Error('Supabase client unavailable'))
-    }
-
-    return activeClient.rpc(...args)
-  },
-}
+export const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY)
