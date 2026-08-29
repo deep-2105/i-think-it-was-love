@@ -1,0 +1,455 @@
+/*
+ * Cinematic visual layer for the Story Archive.
+ * No story data or component structure is changed here.
+ * The scenes use soft illustrated-film styling, atmospheric light,
+ * depth, blur and faceless silhouettes rather than photographs of real people.
+ */
+
+.story-archive__visual {
+  --scene-top: #1b2635;
+  --scene-mid: #34465a;
+  --scene-bottom: #111821;
+  --scene-light: rgba(255, 218, 157, 0.28);
+  --scene-shadow: rgba(3, 7, 12, 0.82);
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 50% 20%, var(--scene-light), transparent 34%),
+    linear-gradient(180deg, var(--scene-top) 0%, var(--scene-mid) 48%, var(--scene-bottom) 100%);
+  filter: saturate(0.92);
+}
+
+.story-archive__visual::before {
+  content: '';
+  position: absolute;
+  inset: -12%;
+  z-index: 20;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 50% 40%, transparent 28%, rgba(0, 0, 0, 0.18) 72%, rgba(0, 0, 0, 0.5) 100%),
+    linear-gradient(110deg, rgba(255,255,255,0.045), transparent 28%, transparent 72%, rgba(0,0,0,0.16));
+  mix-blend-mode: soft-light;
+}
+
+.story-archive__visual::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 21;
+  pointer-events: none;
+  opacity: 0.42;
+  background:
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.025) 0 1px, transparent 1px 4px),
+    radial-gradient(circle at 20% 20%, rgba(255,255,255,0.07) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 72% 66%, rgba(255,255,255,0.05) 0 1px, transparent 1.5px);
+  background-size: auto, 170px 170px, 230px 230px;
+  animation: story-film-drift 18s linear infinite;
+}
+
+/* Emotional palette: the scene changes with the existing visual identifier. */
+.story-archive__visual--classroom,
+.story-archive__visual--test,
+.story-archive__visual--notebook,
+.story-archive__visual--hallway,
+.story-archive__visual--classroom-empty,
+.story-archive__visual--memory-end {
+  --scene-top: #53657a;
+  --scene-mid: #8b7967;
+  --scene-bottom: #27313b;
+  --scene-light: rgba(255, 226, 170, 0.42);
+  --scene-shadow: rgba(18, 19, 22, 0.76);
+}
+
+.story-archive__visual--instagram,
+.story-archive__visual--comment,
+.story-archive__visual--chat,
+.story-archive__visual--message,
+.story-archive__visual--voice,
+.story-archive__visual--meeting,
+.story-archive__visual--care,
+.story-archive__visual--phone,
+.story-archive__visual--late-night-room,
+.story-archive__visual--two-locations,
+.story-archive__visual--bedside-phone,
+.story-archive__visual--desk-routine,
+.story-archive__visual--study-desks,
+.story-archive__visual--motivation,
+.story-archive__visual--sunrise,
+.story-archive__visual--notebook-phone {
+  --scene-top: #5c4b43;
+  --scene-mid: #a47a5b;
+  --scene-bottom: #25232a;
+  --scene-light: rgba(255, 196, 126, 0.5);
+  --scene-shadow: rgba(22, 15, 15, 0.72);
+}
+
+.story-archive__visual--instagram,
+.story-archive__visual--comment,
+.story-archive__visual--chat,
+.story-archive__visual--message,
+.story-archive__visual--voice,
+.story-archive__visual--phone,
+.story-archive__visual--late-night-room,
+.story-archive__visual--two-locations,
+.story-archive__visual--bedside-phone,
+.story-archive__visual--desk-routine,
+.story-archive__visual--study-desks,
+.story-archive__visual--motivation,
+.story-archive__visual--notebook-phone {
+  --scene-top: #28384c;
+  --scene-mid: #705a55;
+  --scene-bottom: #151a24;
+  --scene-light: rgba(246, 180, 112, 0.4);
+}
+
+.story-archive__visual--care,
+.story-archive__visual--meeting,
+.story-archive__visual--sunrise {
+  --scene-top: #d0a875;
+  --scene-mid: #b9785e;
+  --scene-bottom: #423844;
+  --scene-light: rgba(255, 238, 189, 0.62);
+}
+
+.story-archive__visual--empty-chat,
+.story-archive__visual--clock,
+.story-archive__visual--waiting-phone,
+.story-archive__visual--question-window,
+.story-archive__visual--phone-message,
+.story-archive__visual--empty-classroom,
+.story-archive__visual--fading-light,
+.story-archive__visual--unfinished-notebook,
+.story-archive__visual--single-phone,
+.story-archive__visual--question-screen,
+.story-archive__visual--message-split,
+.story-archive__visual--message-card,
+.story-archive__visual--message-window,
+.story-archive__visual--window-chair,
+.story-archive__visual--tears,
+.story-archive__visual--empty-room,
+.story-archive__visual--turned-phone,
+.story-archive__visual--phone-face-down {
+  --scene-top: #283441;
+  --scene-mid: #3d4652;
+  --scene-bottom: #11161e;
+  --scene-light: rgba(151, 173, 194, 0.16);
+  --scene-shadow: rgba(2, 5, 9, 0.9);
+  filter: saturate(0.72);
+}
+
+.story-archive__visual--calendar-question,
+.story-archive__visual--ticket,
+.story-archive__visual--yes-ticket,
+.story-archive__visual--movie-theater,
+.story-archive__visual--cinema-seats,
+.story-archive__visual--outside-afternoon,
+.story-archive__visual--two-silhouettes,
+.story-archive__visual--movie-afternoon,
+.story-archive__visual--window-night,
+.story-archive__visual--notebook-window,
+.story-archive__visual--night-sky,
+.story-archive__visual--window-silence,
+.story-archive__visual--time-clock,
+.story-archive__visual--quiet-night,
+.story-archive__visual--old-notebook,
+.story-archive__visual--classroom-glow,
+.story-archive__visual--vintage-book,
+.story-archive__visual--phone-and-notebook,
+.story-archive__visual--care-memory,
+.story-archive__visual--door-window,
+.story-archive__visual--memory-table,
+.story-archive__visual--final-page {
+  --scene-top: #172438;
+  --scene-mid: #34445a;
+  --scene-bottom: #0d121b;
+  --scene-light: rgba(197, 177, 143, 0.22);
+}
+
+.story-archive__visual--outside-afternoon,
+.story-archive__visual--movie-afternoon,
+.story-archive__visual--care-memory {
+  --scene-top: #8d745f;
+  --scene-mid: #c19b70;
+  --scene-bottom: #34343a;
+  --scene-light: rgba(255, 213, 153, 0.5);
+}
+
+.story-archive__visual--night-sky,
+.story-archive__visual--window-silence,
+.story-archive__visual--time-clock,
+.story-archive__visual--quiet-night,
+.story-archive__visual--old-notebook,
+.story-archive__visual--turned-phone,
+.story-archive__visual--phone-face-down,
+.story-archive__visual--final-page {
+  --scene-top: #111b32;
+  --scene-mid: #26314a;
+  --scene-bottom: #080c14;
+  --scene-light: rgba(171, 188, 225, 0.18);
+}
+
+/* Environmental depth. */
+.story-archive__visual > div {
+  transition: filter 700ms ease, opacity 700ms ease, transform 900ms ease;
+}
+
+.story-archive__visual:hover > div {
+  filter: brightness(1.04);
+}
+
+.story-archive__visual--classroom::after,
+.story-archive__visual--test::after,
+.story-archive__visual--notebook::after,
+.story-archive__visual--hallway::after {
+  opacity: 0.52;
+}
+
+.story-archive__visual--classroom::before,
+.story-archive__visual--test::before,
+.story-archive__visual--hallway::before {
+  background:
+    linear-gradient(115deg, rgba(255, 224, 176, 0.18), transparent 25%),
+    radial-gradient(ellipse at 62% 12%, rgba(255, 235, 194, 0.2), transparent 34%),
+    linear-gradient(180deg, transparent 55%, rgba(0,0,0,0.35));
+}
+
+/* Make existing people/silhouettes read as soft, anonymous animated-film characters. */
+.story-archive__person,
+.story-archive__silhouette,
+.story-archive__student-silhouette,
+.story-archive__hallway-figure,
+.story-archive__hallway-silhouette,
+.story-archive__walking-silhouette,
+.story-archive__silhouette-walk,
+.story-archive__door-silhouette,
+.story-archive__silence-figure {
+  filter: blur(0.35px) drop-shadow(0 18px 18px rgba(0,0,0,0.3));
+  opacity: 0.92;
+  border-radius: 48% 48% 18% 18%;
+}
+
+.story-archive__person::before,
+.story-archive__silhouette::before,
+.story-archive__student-silhouette::before,
+.story-archive__hallway-figure::before,
+.story-archive__hallway-silhouette::before,
+.story-archive__walking-silhouette::before,
+.story-archive__silhouette-walk::before,
+.story-archive__door-silhouette::before,
+.story-archive__silence-figure::before {
+  content: '';
+  position: absolute;
+  width: 24%;
+  aspect-ratio: 1;
+  left: 38%;
+  top: -16%;
+  border-radius: 50%;
+  background: rgba(22, 24, 29, 0.82);
+  box-shadow: 0 0 22px rgba(255, 211, 160, 0.08);
+}
+
+.story-archive__person::after,
+.story-archive__silhouette::after,
+.story-archive__student-silhouette::after,
+.story-archive__hallway-figure::after,
+.story-archive__hallway-silhouette::after,
+.story-archive__walking-silhouette::after,
+.story-archive__silhouette-walk::after,
+.story-archive__door-silhouette::after,
+.story-archive__silence-figure::after {
+  content: '';
+  position: absolute;
+  left: 26%;
+  right: 26%;
+  bottom: -1%;
+  height: 62%;
+  border-radius: 46% 46% 10% 10%;
+  background: linear-gradient(180deg, rgba(38, 38, 44, 0.9), rgba(9, 12, 18, 0.96));
+}
+
+.story-archive__visual--meeting .story-archive__person,
+.story-archive__visual--care .story-archive__person,
+.story-archive__visual--two-silhouettes .story-archive__walking-silhouette,
+.story-archive__visual--outside-afternoon .story-archive__silhouette-walk {
+  filter: blur(0.55px) drop-shadow(0 16px 24px rgba(38, 24, 18, 0.34));
+}
+
+.story-archive__visual--meeting .story-archive__person::before,
+.story-archive__visual--care .story-archive__person::before {
+  background: rgba(57, 45, 43, 0.74);
+}
+
+/* Phones become physical objects rather than flat UI blocks. */
+.story-archive__phone {
+  box-shadow:
+    0 28px 45px rgba(0,0,0,0.36),
+    0 0 0 1px rgba(255,255,255,0.12),
+    inset 0 0 24px rgba(255,255,255,0.035);
+  filter: drop-shadow(0 8px 18px rgba(0,0,0,0.2));
+  border-radius: 22px;
+}
+
+.story-archive__phone-screen {
+  box-shadow: inset 0 0 28px rgba(0,0,0,0.4);
+  background-image: linear-gradient(160deg, rgba(255,255,255,0.06), transparent 30%, rgba(0,0,0,0.22));
+}
+
+.story-archive__visual--message .story-archive__phone-screen,
+.story-archive__visual--comment .story-archive__phone-screen,
+.story-archive__visual--chat .story-archive__phone-screen,
+.story-archive__visual--voice .story-archive__voice-card {
+  box-shadow: 0 0 48px rgba(242, 180, 115, 0.13), inset 0 0 28px rgba(0,0,0,0.26);
+}
+
+/* Physical objects get gentle depth and hand-painted highlights. */
+.story-archive__book-hero,
+.story-archive__book-cover,
+.story-archive__final-book,
+.story-archive__vintage-book,
+.story-archive__open-book,
+.story-archive__notebook-stack,
+.story-archive__notebook-mini,
+.story-archive__memory-book,
+.story-archive__memory-table,
+.story-archive__paper,
+.story-archive__test-paper,
+.story-archive__message-sheet,
+.story-archive__ticket,
+.story-archive__calendar {
+  filter: drop-shadow(0 22px 24px rgba(0,0,0,0.25));
+}
+
+.story-archive__visual--notebook,
+.story-archive__visual--memory-end,
+.story-archive__visual--vintage-book,
+.story-archive__visual--old-notebook,
+.story-archive__visual--notebook-window,
+.story-archive__visual--phone-and-notebook {
+  background:
+    radial-gradient(circle at 50% 44%, rgba(255, 211, 151, 0.3), transparent 26%),
+    linear-gradient(180deg, #4b3d37 0%, #8c6b53 50%, #17181d 100%);
+}
+
+.story-archive__visual--notebook::before,
+.story-archive__visual--memory-end::before {
+  background:
+    radial-gradient(circle at 50% 42%, transparent 0 16%, rgba(255, 227, 179, 0.16) 28%, transparent 58%),
+    linear-gradient(180deg, transparent 42%, rgba(0,0,0,0.48));
+}
+
+/* Night scenes: window glow + slow breathing moonlight. */
+.story-archive__visual--night-sky::before,
+.story-archive__visual--window-night::before,
+.story-archive__visual--quiet-night::before,
+.story-archive__visual--window-silence::before {
+  background:
+    radial-gradient(circle at 72% 22%, rgba(220, 230, 255, 0.28), transparent 7%),
+    radial-gradient(circle at 72% 22%, rgba(173, 193, 236, 0.11), transparent 28%),
+    linear-gradient(180deg, transparent 45%, rgba(0,0,0,0.58));
+  animation: story-moon-breathe 7s ease-in-out infinite;
+}
+
+.story-archive__visual--night-sky::after {
+  opacity: 0.58;
+  background:
+    radial-gradient(circle at 14% 26%, rgba(255,255,255,0.72) 0 1px, transparent 1.6px),
+    radial-gradient(circle at 34% 18%, rgba(255,255,255,0.55) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 58% 31%, rgba(255,255,255,0.64) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 83% 18%, rgba(255,255,255,0.55) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 71% 58%, rgba(255,255,255,0.44) 0 1px, transparent 1.5px);
+}
+
+/* Happy scenes get living light instead of a flat color wash. */
+.story-archive__visual--sunrise::before,
+.story-archive__visual--meeting::before,
+.story-archive__visual--care::before {
+  animation: story-warm-breathe 8s ease-in-out infinite;
+}
+
+.story-archive__visual--sunrise::after {
+  opacity: 0.3;
+}
+
+/* Sad scenes deliberately lose saturation and contrast slowly. */
+.story-archive__visual--empty-chat,
+.story-archive__visual--question-window,
+.story-archive__visual--tears,
+.story-archive__visual--empty-room,
+.story-archive__visual--single-phone,
+.story-archive__visual--phone-face-down {
+  filter: saturate(0.62) contrast(0.98);
+}
+
+.story-archive__visual--tears::before {
+  background:
+    radial-gradient(ellipse at 50% 42%, rgba(155, 184, 207, 0.08), transparent 35%),
+    linear-gradient(180deg, rgba(25,35,47,0.1), rgba(2,5,10,0.7));
+}
+
+/* Chapter six already has its own palette; this adds the film treatment without overriding it. */
+.story-archive__story-shell.is-chapter-06 .story-archive__visual::after {
+  opacity: 0.34;
+}
+
+.story-archive__story-shell.is-chapter-06 .story-archive__visual::before {
+  box-shadow: inset 0 0 80px rgba(65, 43, 24, 0.18);
+}
+
+/* Respect reduced-motion preferences. */
+@media (prefers-reduced-motion: reduce) {
+  .story-archive__visual::after,
+  .story-archive__visual--night-sky::before,
+  .story-archive__visual--window-night::before,
+  .story-archive__visual--quiet-night::before,
+  .story-archive__visual--window-silence::before,
+  .story-archive__visual--sunrise::before,
+  .story-archive__visual--meeting::before,
+  .story-archive__visual--care::before {
+    animation: none;
+  }
+}
+
+@keyframes story-film-drift {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-1.5%, 1%, 0); }
+}
+
+@keyframes story-moon-breathe {
+  0%, 100% { opacity: 0.8; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.025); }
+}
+
+@keyframes story-warm-breathe {
+  0%, 100% { opacity: 0.88; }
+  50% { opacity: 1; }
+}
+
+@media (max-width: 680px) {
+  .story-archive__visual {
+    min-height: 280px;
+  }
+
+  .story-archive__visual::before {
+    inset: -5%;
+  }
+
+  .story-archive__visual::after {
+    opacity: 0.28;
+  }
+
+  .story-archive__visual--night-sky::after {
+    opacity: 0.42;
+  }
+
+  .story-archive__person::before,
+  .story-archive__silhouette::before,
+  .story-archive__student-silhouette::before,
+  .story-archive__hallway-figure::before,
+  .story-archive__hallway-silhouette::before,
+  .story-archive__walking-silhouette::before,
+  .story-archive__silhouette-walk::before,
+  .story-archive__door-silhouette::before,
+  .story-archive__silence-figure::before {
+    width: 20%;
+    left: 40%;
+  }
+}
