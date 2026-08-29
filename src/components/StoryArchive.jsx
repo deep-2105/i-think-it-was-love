@@ -1,4 +1,14 @@
 import { useMemo, useState } from 'react'
+import chapterOneImage from '../assets/story/chapter-01.webp'
+import chapterTwoImage from '../assets/story/chapter-02.webp'
+import chapterThreeImage from '../assets/story/chapter-03.webp'
+import chapterFourImage from '../assets/story/chapter-04.webp'
+import chapterFiveImage from '../assets/story/chapter-05.webp'
+import chapterSixImage from '../assets/story/chapter-06.webp'
+import chapterSevenImage from '../assets/story/chapter-07.webp'
+import chapterEightImage from '../assets/story/chapter-08.webp'
+import endingDoorImage from '../assets/story/ending-door.webp'
+import roseDomeImage from '../assets/story/rose-dome.webp'
 import '../styles/storyArchive.css'
 import '../styles/storyArchiveMobile.css'
 
@@ -173,9 +183,21 @@ const chapters = [
   },
 ]
 
+const chapterImages = [
+  chapterOneImage,
+  chapterTwoImage,
+  chapterThreeImage,
+  chapterFourImage,
+  chapterFiveImage,
+  chapterSixImage,
+  chapterSevenImage,
+  chapterEightImage,
+]
+
 function StoryArchive({ onBackToDashboard }) {
   const [currentChapter, setCurrentChapter] = useState(0)
   const [currentPage, setCurrentPage] = useState(0)
+  const [showArchive, setShowArchive] = useState(true)
   const [isTurning, setIsTurning] = useState(false)
   const [turnDirection, setTurnDirection] = useState('next')
   const [storyEnded, setStoryEnded] = useState(false)
@@ -184,7 +206,7 @@ function StoryArchive({ onBackToDashboard }) {
   const isChapterSix = currentChapter === 5
   const pageNumbers = useMemo(() => Array.from({ length: chapter.pages.length }, (_, index) => index), [chapter.pages.length])
   const triggerTurn = (direction) => { setTurnDirection(direction); setIsTurning(true); window.setTimeout(() => { setIsTurning(false); setTurnDirection('next') }, 360) }
-  const goToChapter = (chapterIndex) => { setStoryEnded(false); setCurrentChapter(chapterIndex); setCurrentPage(0); triggerTurn(chapterIndex > currentChapter ? 'next' : 'prev') }
+  const goToChapter = (chapterIndex) => { setStoryEnded(false); setCurrentChapter(chapterIndex); setCurrentPage(0); setShowArchive(false); triggerTurn(chapterIndex > currentChapter ? 'next' : 'prev') }
   const goToPage = (pageIndex) => { if (pageIndex === currentPage) return; setStoryEnded(false); setCurrentPage(pageIndex); triggerTurn(pageIndex > currentPage ? 'next' : 'prev') }
   const previousPage = () => {
     if (storyEnded) { setStoryEnded(false); setCurrentChapter(chapters.length - 1); setCurrentPage(chapters[chapters.length - 1].pages.length - 1); return }
@@ -197,95 +219,294 @@ function StoryArchive({ onBackToDashboard }) {
     if (currentChapter < chapters.length - 1) { setCurrentChapter(currentChapter + 1); setCurrentPage(0); triggerTurn('next'); return }
     setStoryEnded(true)
   }
-  const renderVisual = () => {
-    const baseClass = `story-archive__visual story-archive__visual--${page.visual}`
-    switch (page.visual) {
-      case 'classroom': return <div className={baseClass} aria-hidden="true"><div className="story-archive__wall" /><div className="story-archive__window" /><div className="story-archive__board">COMPETITIVE CODING</div><div className="story-archive__desk story-archive__desk--one" /><div className="story-archive__desk story-archive__desk--two" /><div className="story-archive__chair story-archive__chair--one" /><div className="story-archive__chair story-archive__chair--two" /><div className="story-archive__notebook-small"><span>MEMORY</span></div></div>
-      case 'test': return <div className={baseClass} aria-hidden="true"><div className="story-archive__paper" /><div className="story-archive__pen" /><div className="story-archive__desk-pair story-archive__desk-pair--left" /><div className="story-archive__desk-pair story-archive__desk-pair--right" /><div className="story-archive__silhouette story-archive__silhouette--front" /><div className="story-archive__silhouette story-archive__silhouette--rear" /></div>
-      case 'notebook': return <div className={baseClass} aria-hidden="true"><div className="story-archive__book-hero"><div className="story-archive__book-cover"><span>MEMORY</span></div></div></div>
-      case 'hallway': return <div className={baseClass} aria-hidden="true"><div className="story-archive__hallway-glow" /><div className="story-archive__hallway-figure story-archive__hallway-figure--one" /><div className="story-archive__hallway-figure story-archive__hallway-figure--two" /><div className="story-archive__light-arc" /></div>
-      case 'split': return <div className={baseClass} aria-hidden="true"><div className="story-archive__memory-panel story-archive__memory-panel--left"><span>MY MEMORY</span></div><div className="story-archive__memory-panel story-archive__memory-panel--right"><span>HIS MEMORY</span></div><div className="story-archive__divider" /></div>
-      case 'classroom-empty': return <div className={baseClass} aria-hidden="true"><div className="story-archive__empty-room" /><div className="story-archive__empty-desk" /><div className="story-archive__empty-chair" /><div className="story-archive__empty-book" /></div>
-      case 'memory-end': return <div className={baseClass} aria-hidden="true"><div className="story-archive__final-glow" /><div className="story-archive__final-book"><span>MEMORY</span></div></div>
-      case 'instagram': return <div className={baseClass} aria-hidden="true"><div className="story-archive__sheet" /><div className="story-archive__phone story-archive__phone--profile"><div className="story-archive__phone-notch" /><div className="story-archive__phone-screen"><div className="story-archive__profile-header" /><div className="story-archive__profile-avatar" /><div className="story-archive__profile-name" /></div></div></div>
-      case 'comment': return <div className={baseClass} aria-hidden="true"><div className="story-archive__phone story-archive__phone--comment"><div className="story-archive__phone-notch" /><div className="story-archive__phone-screen story-archive__phone-screen--comment"><div className="story-archive__caption">this is how obsessed I want my man to be with me</div><div className="story-archive__reply">obsessed with your fancy diary</div></div></div><div className="story-archive__notebook-stigma" /></div>
-      case 'chat': return <div className={baseClass} aria-hidden="true"><div className="story-archive__chat bubble-left">hey</div><div className="story-archive__chat bubble-right">hi</div><div className="story-archive__chat bubble-left">you still have that notebook?</div><div className="story-archive__chat bubble-right">haha yes</div></div>
-      case 'message': return <div className={baseClass} aria-hidden="true"><div className="story-archive__phone story-archive__phone--message"><div className="story-archive__phone-notch" /><div className="story-archive__phone-screen story-archive__phone-screen--message"><div className="story-archive__bubble">Kya hua bacha? Call kru?</div></div></div></div>
-      case 'voice': return <div className={baseClass} aria-hidden="true"><div className="story-archive__voice-card"><span>HARYANVI</span><div className="story-archive__waveform"><span /><span /><span /><span /><span /><span /><span /><span /></div></div></div>
-      case 'meeting': return <div className={baseClass} aria-hidden="true"><div className="story-archive__meeting-glow" /><div className="story-archive__person story-archive__person--left" /><div className="story-archive__person story-archive__person--right" /><div className="story-archive__ice-cream"><div className="story-archive__cone" /><div className="story-archive__scoop" /></div></div>
-      case 'care': return <div className={baseClass} aria-hidden="true"><div className="story-archive__window-panel" /><div className="story-archive__table" /><div className="story-archive__cup story-archive__cup--one" /><div className="story-archive__cup story-archive__cup--two" /><div className="story-archive__person story-archive__person--soft story-archive__person--one" /><div className="story-archive__person story-archive__person--soft story-archive__person--two" /></div>
-      case 'phone': return <div className={baseClass} aria-hidden="true"><div className="story-archive__phone story-archive__phone--call"><div className="story-archive__phone-notch" /><div className="story-archive__phone-screen story-archive__phone-screen--call"><span>CALL ACTIVE</span><div className="story-archive__call-line" /></div></div></div>
-      case 'late-night-room': return <div className={baseClass} aria-hidden="true"><div className="story-archive__night-window" /><div className="story-archive__phone story-archive__phone--bedroom"><div className="story-archive__phone-notch" /><div className="story-archive__phone-screen story-archive__phone-screen--dark" /></div></div>
-      case 'two-locations': return <div className={baseClass} aria-hidden="true"><div className="story-archive__connected-node story-archive__connected-node--left" /><div className="story-archive__connected-node story-archive__connected-node--right" /><div className="story-archive__connection-line" /></div>
-      case 'bedside-phone': return <div className={baseClass} aria-hidden="true"><div className="story-archive__bedside-table" /><div className="story-archive__phone story-archive__phone--bedside"><div className="story-archive__phone-notch" /><div className="story-archive__phone-screen story-archive__phone-screen--dark" /></div></div>
-      case 'desk-routine': return <div className={baseClass} aria-hidden="true"><div className="story-archive__desk-routine" /><div className="story-archive__glow-book" /><div className="story-archive__cup-small" /><div className="story-archive__earphones" /></div>
-      case 'study-desks': return <div className={baseClass} aria-hidden="true"><div className="story-archive__study-desk story-archive__study-desk--left" /><div className="story-archive__study-desk story-archive__study-desk--right" /><div className="story-archive__lamp story-archive__lamp--left" /><div className="story-archive__lamp story-archive__lamp--right" /></div>
-      case 'motivation': return <div className={baseClass} aria-hidden="true"><div className="story-archive__books" /><div className="story-archive__notes" /><div className="story-archive__code-block" /></div>
-      case 'sunrise': return <div className={baseClass} aria-hidden="true"><div className="story-archive__sunrise" /><div className="story-archive__window-haze" /><div className="story-archive__phone-glow" /></div>
-      case 'notebook-phone': return <div className={baseClass} aria-hidden="true"><div className="story-archive__notebook-stack" /><div className="story-archive__phone story-archive__phone--small"><div className="story-archive__phone-notch" /><div className="story-archive__phone-screen story-archive__phone-screen--dark" /></div></div>
-      case 'empty-chat': return <div className={baseClass} aria-hidden="true"><div className="story-archive__chat-empty" /><div className="story-archive__phone story-archive__phone--chat-empty"><div className="story-archive__phone-notch" /><div className="story-archive__phone-screen story-archive__phone-screen--empty" /></div></div>
-      case 'clock': return <div className={baseClass} aria-hidden="true"><div className="story-archive__clock" /><div className="story-archive__time-face" /></div>
-      case 'waiting-phone': return <div className={baseClass} aria-hidden="true"><div className="story-archive__phone story-archive__phone--waiting"><div className="story-archive__phone-notch" /><div className="story-archive__phone-screen story-archive__phone-screen--waiting" /></div><div className="story-archive__waiting-mark" /></div>
-      case 'question-window': return <div className={baseClass} aria-hidden="true"><div className="story-archive__window-questions" /><div className="story-archive__question-mark" /></div>
-      case 'phone-message': return <div className={baseClass} aria-hidden="true"><div className="story-archive__phone story-archive__phone--message-list"><div className="story-archive__phone-notch" /><div className="story-archive__phone-screen story-archive__phone-screen--list"><div className="story-archive__message-line" /><div className="story-archive__message-line story-archive__message-line--short" /></div></div></div>
-      case 'empty-classroom': return <div className={baseClass} aria-hidden="true"><div className="story-archive__empty-room" /><div className="story-archive__chair-empty" /><div className="story-archive__desk-empty" /></div>
-      case 'fading-light': return <div className={baseClass} aria-hidden="true"><div className="story-archive__fading-dusk" /><div className="story-archive__window-sheen" /></div>
-      case 'unfinished-notebook': return <div className={baseClass} aria-hidden="true"><div className="story-archive__open-book" /><div className="story-archive__corner-note" /></div>
-      case 'single-phone': return <div className={baseClass} aria-hidden="true"><div className="story-archive__phone story-archive__phone--single"><div className="story-archive__phone-notch" /><div className="story-archive__phone-screen story-archive__phone-screen--single" /></div></div>
-      case 'question-screen': return <div className={baseClass} aria-hidden="true"><div className="story-archive__question-box" /><div className="story-archive__question-glow" /></div>
-      case 'message-split': return <div className={baseClass} aria-hidden="true"><div className="story-archive__message-panel story-archive__message-panel--left" /><div className="story-archive__message-panel story-archive__message-panel--right" /></div>
-      case 'message-card': return <div className={baseClass} aria-hidden="true"><div className="story-archive__message-sheet"><span>“I’m really sorry, for leaving you clueless.”</span></div></div>
-      case 'message-window': return <div className={baseClass} aria-hidden="true"><div className="story-archive__window-quote" /><div className="story-archive__shadow-chair" /></div>
-      case 'window-chair': return <div className={baseClass} aria-hidden="true"><div className="story-archive__window-frame" /><div className="story-archive__chair-frame" /></div>
-      case 'tears': return <div className={baseClass} aria-hidden="true"><div className="story-archive__tear-drop story-archive__tear-drop--one" /><div className="story-archive__tear-drop story-archive__tear-drop--two" /></div>
-      case 'empty-room': return <div className={baseClass} aria-hidden="true"><div className="story-archive__vacant-room" /><div className="story-archive__vacant-chair" /></div>
-      case 'calendar-question': return <div className={baseClass} aria-hidden="true"><div className="story-archive__calendar" /><div className="story-archive__question-stamp" /></div>
-      case 'ticket': return <div className={baseClass} aria-hidden="true"><div className="story-archive__ticket" /></div>
-      case 'yes-ticket': return <div className={baseClass} aria-hidden="true"><div className="story-archive__ticket story-archive__ticket--large" /><div className="story-archive__stamp">YES</div></div>
-      case 'movie-theater': return <div className={baseClass} aria-hidden="true"><div className="story-archive__theater-screen" /><div className="story-archive__seat story-archive__seat--left" /><div className="story-archive__seat story-archive__seat--right" /></div>
-      case 'cinema-seats': return <div className={baseClass} aria-hidden="true"><div className="story-archive__cinema-lights" /><div className="story-archive__seat-row" /></div>
-      case 'outside-afternoon': return <div className={baseClass} aria-hidden="true"><div className="story-archive__street-glow" /><div className="story-archive__silhouette-walk story-archive__silhouette-walk--left" /><div className="story-archive__silhouette-walk story-archive__silhouette-walk--right" /></div>
-      case 'two-silhouettes': return <div className={baseClass} aria-hidden="true"><div className="story-archive__walking-silhouette story-archive__walking-silhouette--left" /><div className="story-archive__walking-silhouette story-archive__walking-silhouette--right" /><div className="story-archive__night-lantern" /></div>
-      case 'movie-afternoon': return <div className={baseClass} aria-hidden="true"><div className="story-archive__screen-backdrop" /><div className="story-archive__film-strip" /></div>
-      case 'window-night': return <div className={baseClass} aria-hidden="true"><div className="story-archive__moon-window" /><div className="story-archive__window-sill" /></div>
-      case 'turned-phone': return <div className={baseClass} aria-hidden="true"><div className="story-archive__phone story-archive__phone--turned"><div className="story-archive__phone-notch" /><div className="story-archive__phone-screen story-archive__phone-screen--turned" /></div></div>
-      case 'phone-face-down': return <div className={baseClass} aria-hidden="true"><div className="story-archive__phone story-archive__phone--face-down"><div className="story-archive__phone-notch" /><div className="story-archive__phone-screen story-archive__phone-screen--face-down" /></div></div>
-      case 'notebook-window': return <div className={baseClass} aria-hidden="true"><div className="story-archive__window-ledger" /><div className="story-archive__notebook-mini" /></div>
-      case 'night-sky': return <div className={baseClass} aria-hidden="true"><div className="story-archive__stars" /><div className="story-archive__night-haze" /></div>
-      case 'window-silence': return <div className={baseClass} aria-hidden="true"><div className="story-archive__silence-window" /><div className="story-archive__silence-figure" /></div>
-      case 'time-clock': return <div className={baseClass} aria-hidden="true"><div className="story-archive__clock-large" /><div className="story-archive__clock-hands" /></div>
-      case 'quiet-night': return <div className={baseClass} aria-hidden="true"><div className="story-archive__moon" /><div className="story-archive__night-gentle" /></div>
-      case 'old-notebook': return <div className={baseClass} aria-hidden="true"><div className="story-archive__book-stack" /><div className="story-archive__dust-particle" /></div>
-      case 'classroom-glow': return <div className={baseClass} aria-hidden="true"><div className="story-archive__classroom-glow" /><div className="story-archive__desk-sheen" /></div>
-      case 'vintage-book': return <div className={baseClass} aria-hidden="true"><div className="story-archive__vintage-book" /><div className="story-archive__binding" /></div>
-      case 'phone-and-notebook': return <div className={baseClass} aria-hidden="true"><div className="story-archive__notebook-mini" /><div className="story-archive__phone story-archive__phone--small"><div className="story-archive__phone-notch" /><div className="story-archive__phone-screen story-archive__phone-screen--dark" /></div></div>
-      case 'care-memory': return <div className={baseClass} aria-hidden="true"><div className="story-archive__care-light" /><div className="story-archive__person story-archive__person--soft story-archive__person--one" /></div>
-      case 'door-window': return <div className={baseClass} aria-hidden="true"><div className="story-archive__hallway-window" /><div className="story-archive__door-silhouette" /></div>
-      case 'memory-table': return <div className={baseClass} aria-hidden="true"><div className="story-archive__table-surface" /><div className="story-archive__memory-book" /></div>
-      case 'final-page': return <div className={baseClass} aria-hidden="true"><div className="story-archive__final-page-book" /><div className="story-archive__final-page-text">THE END</div></div>
-      default: return <div className={baseClass} aria-hidden="true"><div className="story-archive__default-visual" /></div>
-    }
-  }
 
-  return <main className="story-archive" aria-label="Story archive">
-    <div className="story-archive__background-noise" aria-hidden="true" />
-    <aside className="story-archive__sidebar">
-      <button type="button" className="story-archive__dashboard" onClick={onBackToDashboard}>← BACK TO DASHBOARD</button>
-      <div className="story-archive__sidebar-header"><p>THE STORY</p><h2>ARCHIVE</h2></div>
-      <nav className="story-archive__chapter-list" aria-label="Story chapters">
-        {chapters.map((storyChapter, chapterIndex) => <button key={storyChapter.id} type="button" className={`story-archive__chapter-link ${chapterIndex === currentChapter ? 'is-active' : ''}`} onClick={() => goToChapter(chapterIndex)}><span className="story-archive__chapter-number">{String(chapterIndex + 1).padStart(2, '0')}</span><span className="story-archive__chapter-name">{storyChapter.title}</span></button>)}
-      </nav>
-    </aside>
-    <section className={`story-archive__story-shell ${isChapterSix ? 'is-chapter-06' : ''}`} aria-live="polite">
-      <header className="story-archive__story-header"><p className="story-archive__eyebrow">CHAPTER {String(currentChapter + 1).padStart(2, '0')}</p><h1 className="story-archive__story-heading">{chapter.title}</h1></header>
-      <div className={`story-archive__notebook ${isTurning ? 'is-turning' : ''} story-archive__notebook--${turnDirection}`}>
-        <div className="story-archive__book-spine" aria-hidden="true" />
-        <article className="story-archive__page story-archive__page--left"><div className="story-archive__page-meta"><span>{String(currentPage + 1).padStart(2, '0')} / {String(chapter.pages.length).padStart(2, '0')}</span></div><div className="story-archive__page-body"><h3>{page.title}</h3>{page.subtitle && <div className="story-archive__page-divider" aria-hidden="true" />}{page.subtitle && <p className="story-archive__page-subtitle">{page.subtitle}</p>}{page.paragraphs.map((paragraph, index) => <p key={`${page.id}-${index}`} className="story-archive__story-text">{paragraph}</p>)}{page.badge && <div className="story-archive__page-badge">{page.badge}</div>}</div></article>
-        <article className="story-archive__page story-archive__page--right">{renderVisual()}</article>
-      </div>
-      {storyEnded ? <div className="story-archive__end-state"><p className="story-archive__end-label">THE END</p><button type="button" className="story-archive__nav-button" onClick={onBackToDashboard}>RETURN TO DASHBOARD</button><button type="button" className="story-archive__nav-button" onClick={() => { setStoryEnded(false); setCurrentChapter(0); setCurrentPage(0) }}>REPLAY STORY</button></div> : <footer className="story-archive__footer-nav" aria-label="Page navigation"><button type="button" className="story-archive__nav-button" onClick={previousPage} disabled={currentChapter === 0 && currentPage === 0}>← PREV</button><div className="story-archive__pager" aria-label="Page numbers">{pageNumbers.map((pageIndex) => <button key={`${chapter.id}-pager-${pageIndex}`} type="button" className={`story-archive__pager-button ${pageIndex === currentPage ? 'is-active' : ''}`} onClick={() => goToPage(pageIndex)} aria-label={`Go to page ${pageIndex + 1}`}>{String(pageIndex + 1).padStart(2, '0')}</button>)}</div><button type="button" className="story-archive__nav-button" onClick={nextPage}>{currentChapter === chapters.length - 1 && currentPage === chapter.pages.length - 1 ? 'END →' : 'NEXT →'}</button></footer>}
-    </section>
-  </main>
+  const totalMemories = chapters.reduce((total, storyChapter) => total + storyChapter.pages.length, 0)
+
+  return (
+    <main
+      className={`story-archive story-archive--chapter-${String(currentChapter + 1).padStart(2, '0')} ${
+        showArchive ? 'story-archive--overview' : 'story-archive--reader'
+      }`}
+      aria-label="Story archive"
+    >
+      <div className="story-archive__background-noise" aria-hidden="true" />
+
+      {/* LEFT SIDEBAR */}
+      <aside className="story-archive__sidebar">
+        <div className="story-archive__leather-spine" aria-hidden="true" />
+        <div className="story-archive__brand">
+          <p>I THINK IT WAS LOVE</p>
+          <span>A story that will<br />live forever.</span>
+          <i />
+        </div>
+
+        <div className="story-archive__rose-case" aria-hidden="true">
+          <img src={roseDomeImage} className="story-archive__rose-img" alt="Glowing rose in glass dome" />
+        </div>
+
+        <nav className="story-archive__archive-nav" aria-label="Archive navigation">
+          <button
+            type="button"
+            className={showArchive ? 'is-active' : ''}
+            onClick={() => { setShowArchive(true); setStoryEnded(false); }}
+          >
+            <span className="story-archive__nav-icon story-archive__nav-icon--book" />
+            Story Archive
+          </button>
+          <button type="button" onClick={onBackToDashboard}>
+            <span className="story-archive__nav-icon story-archive__nav-icon--grid" />
+            Dashboard
+          </button>
+          <button type="button" onClick={() => { setShowArchive(true); setStoryEnded(false); }}>
+            <span className="story-archive__nav-icon story-archive__nav-icon--heart" />
+            Memories
+          </button>
+          <button type="button" onClick={onBackToDashboard}>
+            <span className="story-archive__nav-icon story-archive__nav-icon--terminal" />
+            Secret Terminal
+          </button>
+        </nav>
+
+        <div className="story-archive__sidebar-footer">
+          <p>Thank you for being<br />a part of my story.</p>
+          <b>✦</b>
+          <small>(c) I Think It Was Love<br />All rights reserved.</small>
+        </div>
+      </aside>
+
+      {/* MAIN CONTENT */}
+      {showArchive ? (
+        <section className="story-archive__overview-shell" aria-label="Story archive overview">
+          {/* HERO */}
+          <header className="story-archive__hero">
+            <div className="story-archive__hero-artwork" aria-hidden="true">
+              <img
+                src="/src/assets/story/archive-hero.webp"
+                onError={(e) => { e.currentTarget.style.display = 'none' }}
+                alt=""
+                className="story-archive__hero-img"
+              />
+            </div>
+            <div className="story-archive__hero-backdrop" aria-hidden="true">
+              <div className="story-archive__hero-sky" />
+              <div className="story-archive__hero-horizon" />
+              <div className="story-archive__hero-city" />
+              <div className="story-archive__hero-water" />
+              <div className="story-archive__hero-branches"><i /><i /><i /><i /></div>
+            </div>
+            <div className="story-archive__hero-copy">
+              <p>STORY ARCHIVE</p>
+              <span>I THINK IT WAS LOVE</span>
+              <em>Some stories are written in words, some in memories.</em>
+            </div>
+          </header>
+
+          {/* STATS PANEL */}
+          <div className="story-archive__stats" aria-label="Story statistics">
+            <div>
+              <i className="story-archive__stat-icon story-archive__stat-icon--book" />
+              <b>{chapters.length}</b>
+              <span>Chapters</span>
+            </div>
+            <div>
+              <i className="story-archive__stat-icon story-archive__stat-icon--heart" />
+              <b>1</b>
+              <span>Story</span>
+            </div>
+            <div>
+              <i className="story-archive__stat-icon story-archive__stat-icon--clock" />
+              <b>{totalMemories}</b>
+              <span>Memories</span>
+            </div>
+          </div>
+
+          {/* CHAPTER GRID */}
+          <section className="story-archive__chapter-gallery" aria-label="Story chapters">
+            <h1>
+              <i />
+              CHAPTERS
+            </h1>
+            <div className="story-archive__chapter-grid">
+              {chapters.map((storyChapter, chapterIndex) => {
+                const cover = storyChapter.pages[0]
+                return (
+                  <button
+                    key={storyChapter.id}
+                    type="button"
+                    className={`story-archive__memory-card story-archive__memory-card--0${chapterIndex + 1}`}
+                    onClick={() => goToChapter(chapterIndex)}
+                  >
+                    <img
+                      className="story-archive__card-art"
+                      src={chapterImages[chapterIndex]}
+                      alt={storyChapter.title}
+                    />
+                    <div className="story-archive__card-overlay" />
+                    <span className="story-archive__card-number">
+                      {String(chapterIndex + 1).padStart(2, '0')}
+                    </span>
+                    <span className="story-archive__card-copy">
+                      <strong>{storyChapter.title}</strong>
+                      <small>{cover.subtitle || cover.title}</small>
+                    </span>
+                  </button>
+                )
+              })}
+            </div>
+          </section>
+
+          {/* BOTTOM QUOTE */}
+          <footer className="story-archive__closing-quote">
+            <i className="story-archive__quote-mark" aria-hidden="true">&ldquo;</i>
+            <p>Some stories do not end because they stopped mattering. Sometimes they end because life keeps moving.</p>
+            <strong>Thank you for being a beautiful part of my story.</strong>
+            <span className="story-archive__quote-heart" aria-hidden="true">✦</span>
+          </footer>
+        </section>
+      ) : (
+        <section
+          className={`story-archive__story-shell ${isChapterSix ? 'is-chapter-06' : ''}`}
+          aria-live="polite"
+        >
+          <button
+            type="button"
+            className="story-archive__return-archive"
+            onClick={() => setShowArchive(true)}
+          >
+            ← RETURN TO ARCHIVE
+          </button>
+
+          {storyEnded ? (
+            <div className="story-archive__end-state">
+              <div className="story-archive__end-art-wrapper">
+                <img
+                  src={endingDoorImage}
+                  alt="A closing wooden door"
+                  className="story-archive__ending-door-img"
+                />
+                <div className="story-archive__ending-door-light" aria-hidden="true" />
+                <div className="story-archive__ending-door-overlay" aria-hidden="true" />
+              </div>
+              <div className="story-archive__end-content">
+                <p className="story-archive__end-label">THE END</p>
+                <p className="story-archive__ending-line">
+                  &quot;I closed the door but never locked it ... You never cared enough to turn back and knock.&quot;
+                </p>
+                <div className="story-archive__end-actions">
+                  <button
+                    type="button"
+                    className="story-archive__nav-button story-archive__nav-button--primary"
+                    onClick={onBackToDashboard}
+                  >
+                    RETURN TO DASHBOARD
+                  </button>
+                  <button
+                    type="button"
+                    className="story-archive__nav-button"
+                    onClick={() => {
+                      setStoryEnded(false)
+                      setCurrentChapter(0)
+                      setCurrentPage(0)
+                    }}
+                  >
+                    REPLAY STORY
+                  </button>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <>
+              <header className="story-archive__story-header">
+                <p className="story-archive__eyebrow">
+                  CHAPTER {String(currentChapter + 1).padStart(2, '0')}
+                </p>
+                <h1 className="story-archive__story-heading">{chapter.title}</h1>
+              </header>
+
+              <div
+                className={`story-archive__notebook ${
+                  isTurning ? 'is-turning' : ''
+                } story-archive__notebook--${turnDirection}`}
+              >
+                <div className="story-archive__book-spine" aria-hidden="true" />
+                <article className="story-archive__page story-archive__page--left">
+                  <div className="story-archive__page-meta">
+                    <span>
+                      {String(currentPage + 1).padStart(2, '0')} / {String(chapter.pages.length).padStart(2, '0')}
+                    </span>
+                  </div>
+                  <div className="story-archive__page-body">
+                    <h3>{page.title}</h3>
+                    {page.subtitle && (
+                      <div className="story-archive__page-divider" aria-hidden="true" />
+                    )}
+                    {page.subtitle && (
+                      <p className="story-archive__page-subtitle">{page.subtitle}</p>
+                    )}
+                    {page.paragraphs.map((paragraph, index) => (
+                      <p key={`${page.id}-${index}`} className="story-archive__story-text">
+                        {paragraph}
+                      </p>
+                    ))}
+                    {page.badge && (
+                      <div className="story-archive__page-badge">{page.badge}</div>
+                    )}
+                  </div>
+                </article>
+
+                <article className="story-archive__page story-archive__page--right">
+                  <div className="story-archive__art-frame">
+                    <img
+                      className={`story-archive__reader-art story-archive__reader-art--0${currentChapter + 1}`}
+                      src={chapterImages[currentChapter]}
+                      alt={chapter.title}
+                    />
+                    <div className={`story-archive__art-mood story-archive__art-mood--0${currentChapter + 1}`} />
+                    <div className="story-archive__art-caption">
+                      <span>CHAPTER {String(currentChapter + 1).padStart(2, '0')}</span>
+                      <small>{page.title}</small>
+                    </div>
+                  </div>
+                </article>
+              </div>
+
+              <footer className="story-archive__footer-nav" aria-label="Page navigation">
+                <button
+                  type="button"
+                  className="story-archive__nav-button"
+                  onClick={previousPage}
+                  disabled={currentChapter === 0 && currentPage === 0}
+                >
+                  ← PREV
+                </button>
+                <div className="story-archive__pager" aria-label="Page numbers">
+                  {pageNumbers.map((pageIndex) => (
+                    <button
+                      key={`${chapter.id}-pager-${pageIndex}`}
+                      type="button"
+                      className={`story-archive__pager-button ${
+                        pageIndex === currentPage ? 'is-active' : ''
+                      }`}
+                      onClick={() => goToPage(pageIndex)}
+                      aria-label={`Go to page ${pageIndex + 1}`}
+                    >
+                      {String(pageIndex + 1).padStart(2, '0')}
+                    </button>
+                  ))}
+                </div>
+                <button type="button" className="story-archive__nav-button" onClick={nextPage}>
+                  {currentChapter === chapters.length - 1 &&
+                  currentPage === chapter.pages.length - 1
+                    ? 'END →'
+                    : 'NEXT →'}
+                </button>
+              </footer>
+            </>
+          )}
+        </section>
+      )}
+    </main>
+  )
 }
 
 export default StoryArchive
