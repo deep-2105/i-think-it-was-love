@@ -201,23 +201,26 @@ function StoryArchive({ onBackToDashboard }) {
   const [isTurning, setIsTurning] = useState(false)
   const [turnDirection, setTurnDirection] = useState('next')
   const [storyEnded, setStoryEnded] = useState(false)
+  const [showEpilogue, setShowEpilogue] = useState(false)
   const chapter = chapters[currentChapter]
   const page = chapter.pages[currentPage]
   const isChapterSix = currentChapter === 5
   const pageNumbers = useMemo(() => Array.from({ length: chapter.pages.length }, (_, index) => index), [chapter.pages.length])
   const triggerTurn = (direction) => { setTurnDirection(direction); setIsTurning(true); window.setTimeout(() => { setIsTurning(false); setTurnDirection('next') }, 360) }
-  const goToChapter = (chapterIndex) => { setStoryEnded(false); setCurrentChapter(chapterIndex); setCurrentPage(0); setShowArchive(false); triggerTurn(chapterIndex > currentChapter ? 'next' : 'prev') }
-  const goToPage = (pageIndex) => { if (pageIndex === currentPage) return; setStoryEnded(false); setCurrentPage(pageIndex); triggerTurn(pageIndex > currentPage ? 'next' : 'prev') }
+  const goToChapter = (chapterIndex) => { setStoryEnded(false); setShowEpilogue(false); setCurrentChapter(chapterIndex); setCurrentPage(0); setShowArchive(false); triggerTurn(chapterIndex > currentChapter ? 'next' : 'prev') }
+  const goToPage = (pageIndex) => { if (pageIndex === currentPage) return; setStoryEnded(false); setShowEpilogue(false); setCurrentPage(pageIndex); triggerTurn(pageIndex > currentPage ? 'next' : 'prev') }
   const previousPage = () => {
-    if (storyEnded) { setStoryEnded(false); setCurrentChapter(chapters.length - 1); setCurrentPage(chapters[chapters.length - 1].pages.length - 1); return }
+    if (storyEnded) { setStoryEnded(false); setShowEpilogue(false); setCurrentChapter(chapters.length - 1); setCurrentPage(chapters[chapters.length - 1].pages.length - 1); return }
+    if (showEpilogue) { setShowEpilogue(false); return }
     if (currentPage > 0) { setCurrentPage(currentPage - 1); triggerTurn('prev'); return }
     if (currentChapter > 0) { const previousChapterIndex = currentChapter - 1; const previousChapter = chapters[previousChapterIndex]; setCurrentChapter(previousChapterIndex); setCurrentPage(previousChapter.pages.length - 1); triggerTurn('prev') }
   }
   const nextPage = () => {
-    if (storyEnded) { setStoryEnded(false); setCurrentChapter(0); setCurrentPage(0); return }
+    if (storyEnded) { setStoryEnded(false); setShowEpilogue(false); setCurrentChapter(0); setCurrentPage(0); return }
+    if (showEpilogue) { setStoryEnded(true); return }
     if (currentPage < chapter.pages.length - 1) { setCurrentPage(currentPage + 1); triggerTurn('next'); return }
     if (currentChapter < chapters.length - 1) { setCurrentChapter(currentChapter + 1); setCurrentPage(0); triggerTurn('next'); return }
-    setStoryEnded(true)
+    setShowEpilogue(true)
   }
 
   const totalMemories = chapters.reduce((total, storyChapter) => total + storyChapter.pages.length, 0)
@@ -414,6 +417,35 @@ function StoryArchive({ onBackToDashboard }) {
                 </div>
               </div>
             </div>
+          ) : showEpilogue ? (
+            <article className="story-archive__epilogue" aria-labelledby="epilogue-title">
+              <div className="story-archive__epilogue-atmosphere" aria-hidden="true">
+                <img src={endingDoorImage} alt="" />
+              </div>
+              <div className="story-archive__epilogue-content">
+                <p className="story-archive__epilogue-date">15 SEPTEMBER 2026</p>
+                <p className="story-archive__epilogue-kicker">AFTER THE LAST PAGE</p>
+                <h1 id="epilogue-title">THE THING I LEARNED TODAY</h1>
+                <div className="story-archive__epilogue-rule" aria-hidden="true" />
+                <div className="story-archive__epilogue-copy">
+                  <p>Today, I found out that he has a girlfriend. I found out that he loves her.</p>
+                  <p>For a while, I expected the news to make something inside me move. It did not. I felt completely blank.</p>
+                  <p>I know I have no right to question him about it, or ask him to explain it to me. I respect that. And genuinely, I am happy for him.</p>
+                  <p>What stays with me is not the news itself, but the quiet confusion of my own reaction. Somewhere along the way, my feelings for him became deeper and different from anything I had expected. I still do not know exactly what part of me became so attached.</p>
+                  <p>Strangely, I do not care anymore whether we talk or do not talk. He has simply become connected to a part of me I cannot easily explain.</p>
+                  <p>Maybe that is all this can be now: a feeling that existed, mattered, and does not need to be acted upon. I can be happy for him. I can accept what is true. And I can let the silence be quiet.</p>
+                </div>
+                <p className="story-archive__epilogue-signoff">Some things remain a part of us without asking to remain in our lives.</p>
+              </div>
+              <footer className="story-archive__epilogue-nav">
+                <button type="button" className="story-archive__nav-button" onClick={previousPage}>
+                  ← LAST PAGE
+                </button>
+                <button type="button" className="story-archive__nav-button story-archive__nav-button--primary" onClick={nextPage}>
+                  CLOSE THE DOOR →
+                </button>
+              </footer>
+            </article>
           ) : (
             <>
               <header className="story-archive__story-header">
