@@ -11,6 +11,7 @@ import endingDoorImage from '../assets/story/ending-door.webp'
 import roseDomeImage from '../assets/story/rose-dome.webp'
 import '../styles/storyArchive.css'
 import '../styles/storyArchiveMobile.css'
+import '../styles/chapterNine.css'
 
 const chapters = [
   {
@@ -181,6 +182,25 @@ const chapters = [
       { id: 'chapter-08-page-08', title: 'THE LAST PAGE', subtitle: 'SOME STORIES END WITHOUT DISAPPEARING', badge: 'Final page', paragraphs: ['Some stories do not end because they stopped mattering. Sometimes they end because life keeps moving.', 'This one mattered. It shaped something inside me. It made me happy. It hurt me. It taught me how deeply a person can affect another person without even meaning to.', 'Thank you for being a beautiful part of my story.', 'THE END.'], visual: 'final-page' },
     ],
   },
+  {
+    id: 'chapter-09',
+    title: 'THE DAY I RAN TO YOU',
+    date: '26 SEPTEMBER 2026',
+    pages: [
+      { id: 'chapter-09-page-01', title: 'THE FEST', subtitle: '26 SEPTEMBER 2026', badge: 'A bright morning', paragraphs: ['26 September was my college fest.', 'There was music somewhere, and people moving in every direction, and the kind of noise that usually fills a campus when everyone is happy to be there.', 'It was meant to be an ordinary celebration. A day I would remember in pieces, if I remembered it at all.'] },
+      { id: 'chapter-09-page-02', title: 'I HEARD HE WAS COMING', subtitle: 'THE NEWS', badge: 'A small piece of news', paragraphs: ['And then I heard that he was coming.', 'It was such a small sentence. Nothing around me changed. The music kept playing and the crowd kept moving.', 'But something inside me went completely still, and then, all at once, it was not still at all.'] },
+      { id: 'chapter-09-page-03', title: 'I RAN TO GET READY', subtitle: 'ALL I WANTED', badge: 'Running', paragraphs: ['I did not stop to think about it. I got ready as fast as I could, and I ran.', 'Honestly, there was only one thing I wanted from that day. I wanted to be with him.', 'I was not thinking about what it meant or what it would cost. I was only thinking that he was close, and that I wanted to be close too.'] },
+      { id: 'chapter-09-page-04', title: 'HIS CALL', subtitle: 'THE THING I DID NOT EXPECT', badge: 'A phone, lighting up', paragraphs: ['Then something happened that I had not expected.', 'He called me.', 'He asked me where I was.', 'I remember how quiet it felt in the middle of all that noise. After everything I had written, after all the silence, my phone was ringing, and it was his name.'] },
+      { id: 'chapter-09-page-05', title: 'WE MET', subtitle: 'THE FIRST MOMENT', badge: 'Finally', paragraphs: ['And then we met.', 'No long distance between us. No screen. No waiting for a reply that might not come.', 'Just him, standing there, and me, standing there, and the strange gentleness of two people who have missed something and are not sure how to say it.'] },
+      { id: 'chapter-09-page-06', title: 'HIS CAR', subtitle: 'OUTSIDE THE FEST', badge: 'Away from the noise', paragraphs: ['We went outside, away from the fest, away from everyone.', 'We sat together in his car.', 'The doors closed and the noise became distant, like something happening in another room. It was just the two of us, and a small quiet space that felt like it belonged to us for a while.'] },
+      { id: 'chapter-09-page-07', title: 'THE MEMORY', subtitle: 'UNLIKE ANYTHING BEFORE', badge: 'Warm and unhurried', paragraphs: ['We talked. We laughed. We had a genuinely beautiful time with each other.', 'It felt completely different from everything that had happened before. There was no weight in the room, no careful distance. Only ease, and the soft feeling of having him close again.', 'I remember thinking that I wanted to hold on to every minute, and trying, quietly, to do exactly that.'] },
+      { id: 'chapter-09-page-08', title: 'I FINALLY TOLD HIM EVERYTHING', subtitle: 'NO MORE HIDING', badge: 'The confession', paragraphs: ['That day, I finally said it all.', 'I told him all of my feelings. I told him that I was still stuck on him. I told him what he meant to me.', 'I did not hide anything anymore. I had carried it for so long in notebooks and silences and unsent words, and at last I let it be spoken out loud.', 'It was frightening, and it was a relief, and somehow it was both at the same time.'] },
+      { id: 'chapter-09-page-09', title: 'WHAT HE TOLD ME', subtitle: 'SOMETHING I NEVER KNEW', badge: 'A new understanding', paragraphs: ['And then he told me something that changed the way I understood everything.', 'He told me that he had wanted something long-term with me.', 'He told me that the reason he had left me the first time was not because he did not want me, but because our castes were different, and he believed we could not be together because of that.', 'I sat there for a moment with all of it. The past did not change, but it looked different now.'] },
+      { id: 'chapter-09-page-10', title: 'THE CASTE I NEVER THOUGHT I WOULD REGRET', subtitle: 'A QUIET, PERSONAL ACHE', badge: 'Regret', paragraphs: ['For the first time in my life, I regretted something as deeply personal as my caste.', 'I had never thought I would feel that way.', 'But that day I understood how something outside of two people\'s feelings can become bigger than the feelings themselves.', 'Love and circumstance are not always the same thing. Sometimes they stand side by side and still do not meet.'] },
+      { id: 'chapter-09-page-11', title: 'THE BEST DAY', subtitle: 'AND STILL, A GOOD ONE', badge: 'Held close', paragraphs: ['And yet, when I think back on 26 September, it is not sadness that I remember first.', 'I was genuinely happy. I felt seen. I felt full in a way I had almost forgotten was possible, and deeply connected to him.', 'It was an incredibly good day.'] },
+      { id: 'chapter-09-page-12', title: 'WHAT THAT DAY MEANT TO ME', subtitle: 'FOR ONE DAY', badge: 'Remembered', paragraphs: ['Maybe that is why I remember 26 September so differently.', 'Because for one day, there was no distance between what I felt and what I had beside me.', 'He was there. I was there. And for a little while, that was enough.', 'It was, without a doubt, one of the best days I had with him.'] },
+    ],
+  },
 ]
 
 const chapterImages = [
@@ -192,7 +212,12 @@ const chapterImages = [
   chapterSixImage,
   chapterSevenImage,
   chapterEightImage,
+  chapterSixImage,
 ]
+
+// The 15 September epilogue sits between chapter 08 and chapter 09.
+const EPILOGUE_CHAPTER_INDEX = 7
+const CHAPTER_NINE_INDEX = 8
 
 function StoryArchive({ onBackToDashboard }) {
   const [currentChapter, setCurrentChapter] = useState(0)
@@ -205,6 +230,7 @@ function StoryArchive({ onBackToDashboard }) {
   const chapter = chapters[currentChapter]
   const page = chapter.pages[currentPage]
   const isChapterSix = currentChapter === 5
+  const isChapterNine = currentChapter === CHAPTER_NINE_INDEX
   const pageNumbers = useMemo(() => Array.from({ length: chapter.pages.length }, (_, index) => index), [chapter.pages.length])
   const triggerTurn = (direction) => { setTurnDirection(direction); setIsTurning(true); window.setTimeout(() => { setIsTurning(false); setTurnDirection('next') }, 360) }
   const goToChapter = (chapterIndex) => { setStoryEnded(false); setShowEpilogue(false); setCurrentChapter(chapterIndex); setCurrentPage(0); setShowArchive(false); triggerTurn(chapterIndex > currentChapter ? 'next' : 'prev') }
@@ -213,14 +239,16 @@ function StoryArchive({ onBackToDashboard }) {
     if (storyEnded) { setStoryEnded(false); setShowEpilogue(false); setCurrentChapter(chapters.length - 1); setCurrentPage(chapters[chapters.length - 1].pages.length - 1); return }
     if (showEpilogue) { setShowEpilogue(false); return }
     if (currentPage > 0) { setCurrentPage(currentPage - 1); triggerTurn('prev'); return }
+    if (currentChapter === CHAPTER_NINE_INDEX) { setCurrentChapter(EPILOGUE_CHAPTER_INDEX); setCurrentPage(chapters[EPILOGUE_CHAPTER_INDEX].pages.length - 1); setShowEpilogue(true); return }
     if (currentChapter > 0) { const previousChapterIndex = currentChapter - 1; const previousChapter = chapters[previousChapterIndex]; setCurrentChapter(previousChapterIndex); setCurrentPage(previousChapter.pages.length - 1); triggerTurn('prev') }
   }
   const nextPage = () => {
     if (storyEnded) { setStoryEnded(false); setShowEpilogue(false); setCurrentChapter(0); setCurrentPage(0); return }
-    if (showEpilogue) { setStoryEnded(true); return }
+    if (showEpilogue) { setShowEpilogue(false); setCurrentChapter(CHAPTER_NINE_INDEX); setCurrentPage(0); triggerTurn('next'); return }
     if (currentPage < chapter.pages.length - 1) { setCurrentPage(currentPage + 1); triggerTurn('next'); return }
+    if (currentChapter === EPILOGUE_CHAPTER_INDEX) { setShowEpilogue(true); return }
     if (currentChapter < chapters.length - 1) { setCurrentChapter(currentChapter + 1); setCurrentPage(0); triggerTurn('next'); return }
-    setShowEpilogue(true)
+    setStoryEnded(true)
   }
 
   const totalMemories = chapters.reduce((total, storyChapter) => total + storyChapter.pages.length, 0)
@@ -336,7 +364,7 @@ function StoryArchive({ onBackToDashboard }) {
                   <button
                     key={storyChapter.id}
                     type="button"
-                    className={`story-archive__memory-card story-archive__memory-card--0${chapterIndex + 1}`}
+                    className={`story-archive__memory-card story-archive__memory-card--${String(chapterIndex + 1).padStart(2, '0')}`}
                     onClick={() => goToChapter(chapterIndex)}
                   >
                     <img
@@ -368,7 +396,7 @@ function StoryArchive({ onBackToDashboard }) {
         </section>
       ) : (
         <section
-          className={`story-archive__story-shell ${isChapterSix ? 'is-chapter-06' : ''}`}
+          className={`story-archive__story-shell ${isChapterSix ? 'is-chapter-06' : ''} ${isChapterNine ? 'is-chapter-09' : ''}`}
           aria-live="polite"
         >
           <button
@@ -442,7 +470,7 @@ function StoryArchive({ onBackToDashboard }) {
                   ← LAST PAGE
                 </button>
                 <button type="button" className="story-archive__nav-button story-archive__nav-button--primary" onClick={nextPage}>
-                  CLOSE THE DOOR →
+                  CONTINUE →
                 </button>
               </footer>
             </article>
@@ -453,6 +481,7 @@ function StoryArchive({ onBackToDashboard }) {
                   CHAPTER {String(currentChapter + 1).padStart(2, '0')}
                 </p>
                 <h1 className="story-archive__story-heading">{chapter.title}</h1>
+                {chapter.date && <p className="story-archive__chapter-date">{chapter.date}</p>}
               </header>
 
               <div
@@ -461,7 +490,7 @@ function StoryArchive({ onBackToDashboard }) {
                 } story-archive__notebook--${turnDirection}`}
               >
                 <div className="story-archive__book-spine" aria-hidden="true" />
-                <article className="story-archive__page story-archive__page--left">
+                <article key={page.id} className="story-archive__page story-archive__page--left">
                   <div className="story-archive__page-meta">
                     <span>
                       {String(currentPage + 1).padStart(2, '0')} / {String(chapter.pages.length).padStart(2, '0')}

@@ -1,0 +1,79 @@
+/* Chapter 09 - The Day I Ran To You */
+.story-archive__chapter-date {
+  margin: 0.45rem 0 0;
+  color: #d9b878;
+  font: 600 0.78rem Georgia, 'Times New Roman', serif;
+  letter-spacing: 0.34em;
+  text-align: center;
+}
+
+.story-archive--chapter-09 .story-archive__story-heading {
+  color: #f3dfb4;
+  text-shadow: 0 0 28px rgba(226, 183, 108, 0.28);
+  overflow-wrap: anywhere;
+}
+
+.story-archive--chapter-09 .story-archive__notebook {
+  border: 1px solid rgba(217, 184, 120, 0.42);
+  box-shadow: 0 34px 90px rgba(0, 0, 0, 0.45), 0 0 60px rgba(226, 183, 108, 0.1),
+    inset 0 0 0 1px rgba(217, 184, 120, 0.12);
+}
+
+.story-archive--chapter-09 .story-archive__page-body h3 {
+  overflow-wrap: anywhere;
+}
+
+.story-archive--chapter-09 .story-archive__page--left > * {
+  animation: chapterNineFade 0.9s ease both;
+}
+
+.story-archive--chapter-09 .story-archive__story-text {
+  animation: chapterNineFade 1s ease both;
+}
+
+.story-archive--chapter-09 .story-archive__story-text:nth-of-type(1) { animation-delay: 0.15s; }
+.story-archive--chapter-09 .story-archive__story-text:nth-of-type(2) { animation-delay: 0.55s; }
+.story-archive--chapter-09 .story-archive__story-text:nth-of-type(3) { animation-delay: 0.95s; }
+.story-archive--chapter-09 .story-archive__story-text:nth-of-type(4) { animation-delay: 1.35s; }
+
+.story-archive--chapter-09 .story-archive__reader-art {
+  filter: sepia(0.25) saturate(1.1) brightness(1.02) contrast(1.05);
+  animation: chapterNineGlow 14s ease-in-out infinite alternate;
+}
+
+.story-archive--chapter-09 .story-archive__art-frame {
+  border: 1px solid rgba(217, 184, 120, 0.5);
+  box-shadow: 0 0 48px rgba(226, 183, 108, 0.18);
+}
+
+.story-archive--chapter-09 .story-archive__art-mood {
+  background: radial-gradient(circle at 50% 40%, rgba(255, 205, 130, 0.14), rgba(8, 6, 8, 0.55) 90%);
+}
+
+.story-archive__memory-card--09 .story-archive__card-art { object-position: center 20%; }
+
+.story-archive__memory-card--09 {
+  border-color: rgba(217, 184, 120, 0.6);
+  box-shadow: 0 0 26px rgba(226, 183, 108, 0.2);
+}
+
+@keyframes chapterNineFade {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes chapterNineGlow {
+  from { transform: scale(1); }
+  to { transform: scale(1.04); }
+}
+
+@media (max-width: 760px) {
+  .story-archive__chapter-date { font-size: 0.66rem; letter-spacing: 0.22em; }
+  .story-archive--chapter-09 .story-archive__pager { flex-wrap: wrap; justify-content: center; max-width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .story-archive--chapter-09 .story-archive__page--left > *,
+  .story-archive--chapter-09 .story-archive__story-text,
+  .story-archive--chapter-09 .story-archive__reader-art { animation: none; }
+}
